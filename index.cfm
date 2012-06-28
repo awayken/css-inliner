@@ -1,7 +1,18 @@
+<cfsilent>
+	<cfset cssinliner = createObject( 'component', 'com.awayken.cssinliner' ).init( 100 )>
+</cfsilent>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<title>CSS Inliner Demo</title>
+<cfscript>
+	cssinliner.showCSS('css/small.css');
+	cssinliner.showCSS('css/big.css');
+	cssinliner.showCSS([
+		'css/small.css',
+		'css/big.css'
+	]);
+</cfscript>
 </head>
 <body>
 	<h1>CSS Inliner Demo</h1>
