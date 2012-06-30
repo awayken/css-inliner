@@ -4,7 +4,7 @@ As we learn more and more about how to increase the speed of our pages, front-en
 
 Small files are output as inline CSS. Big files are output as `<link>` tags.
 
-``` coldfusion
+```coldfusion
 <cfscript>
 	cssinliner.showCSS('css/small.css');
 	cssinliner.showCSS('css/big.css');
