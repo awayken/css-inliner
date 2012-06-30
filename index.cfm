@@ -1,5 +1,5 @@
 <cfsilent>
-	<cfset cssinliner = createObject( 'component', 'com.awayken.cssinliner' ).init( 100 )>
+	<cfset cssinliner = createObject( 'component', 'com.awayken.cssinliner' ).init()>
 </cfsilent>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,5 +22,6 @@
 		<li><code>big.css</code> &mdash; a CSS file larger than 4KB</li>
 		<li><code>[ 'small.css', 'big.css' ]</code> &mdash; both files</li>
 	</ol>
+	<p>View source to see how the CSS files were handled.</p>
 </body>
 </html>
