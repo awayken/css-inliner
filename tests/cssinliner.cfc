@@ -37,7 +37,7 @@
 
 			<cfcatch type="any">
 				<cfscript>
-					assertEquals( cfcatch.message, 'The argument THRESHOLD passed to function setthreshold() is not of type numeric', 'Function properly fails non-numeric values for threshold.' );
+					assert( len( cfcatch.message ), 'Function properly fails non-numeric values for threshold.' );
 				</cfscript>
 			</cfcatch>
 		</cftry>
@@ -56,37 +56,37 @@
 			var cssLink = '';
 
 			cssLink = defaultTarget.getCSSLink( cssURL );
-			assertEquals( cssLink, '<link rel="stylesheet" href="css/small.css">' );
+			assertEquals( '<link rel="stylesheet" href="css/small.css">', cssLink );
 			cssLink = defaultTarget.getCSSLink( cssURL, 'html5' );
-			assertEquals( cssLink, '<link rel="stylesheet" href="css/small.css">' );
+			assertEquals( '<link rel="stylesheet" href="css/small.css">', cssLink );
 			cssLink = defaultTarget.getCSSLink( cssURL, 'xhtml' );
-			assertEquals( cssLink, '<link rel="stylesheet" type="text/css" href="css/small.css" />' );
+			assertEquals( '<link rel="stylesheet" type="text/css" href="css/small.css" />', cssLink );
 		</cfscript>
 	</cffunction>
 
 	<cffunction name="testGetCSSContent">
 		<cfscript>
 			var defaultTarget = createObject( 'component', 'com.awayken.cssinliner' ).init();
-			var cssURL = 'css/small.css';
+			var cssURL = '/tests/css/small.css';
 			var cssContent = '';
 
 			cssContent = defaultTarget.getCSSContent( cssURL );
-			assertEquals( cssContent, 'body { color: ##000; background: ##fff; }' );
+			assertEquals( 'body { color: ##000; background: ##fff; }', cssContent );
 		</cfscript>
 	</cffunction>
 
 	<cffunction name="testGetCSS">
 		<cfscript>
 			var defaultTarget = createObject( 'component', 'com.awayken.cssinliner' ).init();
-			var cssURL = 'css/small.css';
-			var cssURLs = [ 'css/small.css', 'css/big.css' ];
+			var cssURL = '/tests/css/small.css';
+			var cssURLs = [ '/tests/css/small.css', '/tests/css/big.css' ];
 			var css = '';
 
 			css = defaultTarget.getCSS( cssURL );
-			assertEquals( css, '<style>' & defaultTarget.getCSSContent( cssURL ) & '</style>' );
+			assertEquals( '<style>' & defaultTarget.getCSSContent( cssURL ) & '</style>', css );
 			defaultTarget.setThreshold( 1 );
 			css = defaultTarget.getCSS( cssURL );
-			assertEquals( css, defaultTarget.getCSSLink( cssURL ) );
+			assertEquals( defaultTarget.getCSSLink( cssURL ), css );
 		</cfscript>
 	</cffunction>
 
