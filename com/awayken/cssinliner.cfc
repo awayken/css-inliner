@@ -54,8 +54,10 @@
 		</cfif>
 
 		<cfloop from="1" to="#ArrayLen( cssInputs )#" index="i">
-			<cfset cssDetails[ i ] = getFileInfo( ExpandPath( cssInputs[ i ] ) )>
-			<cfset cssTotalSize += cssDetails[ i ].size>
+			<cfif fileExists( ExpandPath( cssInputs[ i ] ) )>
+				<cfset cssDetails[ i ] = getFileInfo( ExpandPath( cssInputs[ i ] ) )>
+				<cfset cssTotalSize += cssDetails[ i ].size>
+			</cfif>
 		</cfloop>
 
 		<cfif cssTotalSize GT this.threshold>
@@ -93,9 +95,24 @@
 
 		<cfargument name="cssURL" type="string" required="true">
 
-		<cfset var cssContent = "">
+		<cfscript>
+			if ( !isDefined('requiest.cacheKey') ) {
+				request.cacheKey = hash( cgi.http_host, 'sha1' );
+			}
 
-		<cffile action="read" file="#ExpandPath( arguments.cssURL )#" variable="cssContent">
+			var cachekey = request.cacheKey & 'cssinliner' & arguments.cssURL;
+			var cssContent = cacheGet( cachekey );
+
+			if ( isNull( cacheObject ) ) {
+				if ( fileExists( expandPath( arguments.cssURL ) ) ) {
+				    cssContent = fileRead( expandPath( arguments.cssURL ) );
+				} else {
+					cssContent = '';
+				}
+
+			    cachePut( cacheKey, cssContent, createTimespan( 0, 1, 0, 0 ) );
+			}
+		</cfscript>
 
 		<cfreturn cssContent>
 	</cffunction>
